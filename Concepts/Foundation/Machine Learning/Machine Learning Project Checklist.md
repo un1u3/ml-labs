@@ -14,7 +14,7 @@
 * List and verify assumptions.
 
 ---
-
+w
 ### **2️⃣ Get the Data**
 
 * Identify what data you need and where to get it.
