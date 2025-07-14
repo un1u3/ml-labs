@@ -7,4 +7,6 @@
 ### For Machine Learning 
 - Books [Hands-On_Machine_Learning_with_Scikit-Learn_Keras_and_Tensorflow_-_Aurelien_Geron]()
 
-
+### For Deep Learning 
+- Books [Hands-On_Machine_Learning_with_Scikit-Learn_Keras_and_Tensorflow_-_Aurelien_Geron]()
+- YT playlist [Pytorch] (https://www.youtube.com/watch?v=Z_ikDlimN6A)
