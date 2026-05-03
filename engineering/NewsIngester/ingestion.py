@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import re 
+import pandas as pd 
 
 class Article:
     def __init__(self, url: str, content: str):
@@ -38,11 +39,20 @@ class NewsIngester:
         return cleaned
 
 
+        
+
+
 
 
 news = NewsIngester()
 
 article = news.fetch_extract("https://www.ronbpost.com/2026/05/15240/")
+df = pd.DataFrame([{
+    "url": article.url,
+    "content":article.content
+    }]
+)
+df.to_csv('hello.csv')
 
 print(article.content[:500])
 
