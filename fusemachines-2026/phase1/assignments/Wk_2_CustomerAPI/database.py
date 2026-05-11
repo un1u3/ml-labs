@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
 import os
+from logger import get_logger
 
 load_dotenv()
 logger = get_logger(__name__) 
