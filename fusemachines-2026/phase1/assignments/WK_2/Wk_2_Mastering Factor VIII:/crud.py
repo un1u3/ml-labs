@@ -25,7 +25,7 @@ def _count_table_sync(table_name):
     finally:
         db.close()
 
-
+# async for concurrent operaatiosn, 
 async def _count_table(table_name):
     return await asyncio.to_thread(_count_table_sync, table_name)
 
