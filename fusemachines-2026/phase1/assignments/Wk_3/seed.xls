@@ -1,51 +1,51 @@
-question	answer
-List all products	SELECT * FROM products;
-Get all customers	SELECT * FROM customers;
-Show all orders	SELECT * FROM orders;
-List all employees	SELECT * FROM employees;
-Get all offices	SELECT * FROM offices;
-Show all product lines	SELECT * FROM productlines;
-List all payments	SELECT * FROM payments;
-Get product names and prices	SELECT "productName", "buyPrice", "MSRP" FROM products;
-Get customer names and cities	SELECT "customerName", "city" FROM customers;
-List employee first and last names	SELECT "firstName", "lastName" FROM employees;
-Get all order dates	SELECT "orderDate" FROM orders;
-Show product vendor list	SELECT DISTINCT "productVendor" FROM products;
-Get all product codes	SELECT "productCode" FROM products;
-List all countries from offices	SELECT DISTINCT "country" FROM offices;
-Show all order statuses	SELECT DISTINCT "status" FROM orders;
-Get all payment amounts	SELECT "amount" FROM payments;
-List all job titles	SELECT DISTINCT "jobTitle" FROM employees;
-Get customer phone numbers	SELECT "customerName", "phone" FROM customers;
-Show product MSRP values	SELECT "productName", "MSRP" FROM products;
-List order numbers	SELECT "orderNumber" FROM orders;
-Get orders with customer names	SELECT o."orderNumber", o."orderDate", o."status", c."customerName" FROM orders o JOIN customers c ON o."customerNumber" = c."customerNumber";
-Get employees with office city	SELECT e."employeeNumber", e."firstName", e."lastName", o."city" FROM employees e JOIN offices o ON e."officeCode" = o."officeCode";
-Get payments with customer names	SELECT p."customerNumber", c."customerName", p."checkNumber", p."paymentDate", p."amount" FROM payments p JOIN customers c ON p."customerNumber" = c."customerNumber";
-Get order details with product names	SELECT od."orderNumber", od."productCode", p."productName", od."quantityOrdered", od."priceEach" FROM orderdetails od JOIN products p ON od."productCode" = p."productCode";
-Get products with product line description	SELECT p."productCode", p."productName", p."productLine", pl."textDescription" FROM products p JOIN productlines pl ON p."productLine" = pl."productLine";
-Get customers with sales rep names	SELECT c."customerNumber", c."customerName", e."firstName" AS "salesRepFirstName", e."lastName" AS "salesRepLastName" FROM customers c LEFT JOIN employees e ON c."salesRepEmployeeNumber" = e."employeeNumber";
-Get orders with customer city	SELECT o."orderNumber", o."orderDate", o."status", c."customerName", c."city" FROM orders o JOIN customers c ON o."customerNumber" = c."customerNumber";
-Get employees and their manager	SELECT e."employeeNumber", e."firstName", e."lastName", m."firstName" AS "managerFirstName", m."lastName" AS "managerLastName" FROM employees e LEFT JOIN employees m ON e."reportsTo" = m."employeeNumber";
-Get orderdetails with product vendor	SELECT od."orderNumber", od."productCode", p."productVendor", od."quantityOrdered", od."priceEach" FROM orderdetails od JOIN products p ON od."productCode" = p."productCode";
-Get payments with customer country	SELECT p."customerNumber", c."customerName", c."country", p."checkNumber", p."paymentDate", p."amount" FROM payments p JOIN customers c ON p."customerNumber" = c."customerNumber";
-Count customers per country	SELECT "country", COUNT(*) AS "customerCount" FROM customers GROUP BY "country";
-Total payments per customer	SELECT c."customerNumber", c."customerName", SUM(p."amount") AS "totalPayments" FROM customers c JOIN payments p ON c."customerNumber" = p."customerNumber" GROUP BY c."customerNumber", c."customerName";
-Number of orders per status	SELECT "status", COUNT(*) AS "orderCount" FROM orders GROUP BY "status";
-Products per product line	SELECT "productLine", COUNT(*) AS "productCount" FROM products GROUP BY "productLine";
-Employees per office	SELECT o."officeCode", o."city", COUNT(e."employeeNumber") AS "employeeCount" FROM offices o LEFT JOIN employees e ON o."officeCode" = e."officeCode" GROUP BY o."officeCode", o."city";
-Total stock per product vendor	SELECT "productVendor", SUM("quantityInStock") AS "totalStock" FROM products GROUP BY "productVendor";
-Average buy price per product line	SELECT "productLine", AVG("buyPrice") AS "averageBuyPrice" FROM products GROUP BY "productLine";
-Orders per customer	SELECT c."customerNumber", c."customerName", COUNT(o."orderNumber") AS "orderCount" FROM customers c LEFT JOIN orders o ON c."customerNumber" = o."customerNumber" GROUP BY c."customerNumber", c."customerName";
-Max MSRP per product line	SELECT "productLine", MAX("MSRP") AS "maxMSRP" FROM products GROUP BY "productLine";
-Min buy price per vendor	SELECT "productVendor", MIN("buyPrice") AS "minBuyPrice" FROM products GROUP BY "productVendor";
-Total number of customers	SELECT COUNT(*) AS "totalCustomers" FROM customers;
-Total number of products	SELECT COUNT(*) AS "totalProducts" FROM products;
-Total revenue from payments	SELECT SUM("amount") AS "totalRevenue" FROM payments;
-Average product price	SELECT AVG("buyPrice") AS "averageProductPrice" FROM products;
-Max payment amount	SELECT MAX("amount") AS "maxPaymentAmount" FROM payments;
-Min payment amount	SELECT MIN("amount") AS "minPaymentAmount" FROM payments;
-Count total orders	SELECT COUNT(*) AS "totalOrders" FROM orders;
-Total quantity in stock	SELECT SUM("quantityInStock") AS "totalQuantityInStock" FROM products;
-Average MSRP	SELECT AVG("MSRP") AS "averageMSRP" FROM products;
-Number of employees	SELECT COUNT(*) AS "numberOfEmployees" FROM employees;
+Question,Intent,Tables,Columns,Filters,Joins,,,,
+List all products,Retrieve all products,products,*,None,None,,,,
+Get all customers,Retrieve all customers,customers,*,None,None,,,,
+Show all orders,Retrieve all orders,orders,*,None,None,,,,
+List all employees,Retrieve all employees,employees,*,None,None,,,,
+Get all offices,Retrieve all offices,offices,*,None,None,,,,
+Show all product lines,Retrieve all product lines,productlines,*,None,None,,,,
+List all payments,Retrieve all payments,payments,*,None,None,,,,
+Get product names and prices,Retrieve product names and prices,products,productName,buyPrice,MSRP,None,None,,
+Get customer names and cities,Retrieve customer names and cities,customers,customerName,city,None,None,,,
+List employee first and last names,Retrieve employee names,employees,firstName,lastName,None,None,,,
+Get all order dates,Retrieve order dates,orders,orderNumber,orderDate,requiredDate,shippedDate,None,None,
+Show product vendor list,Retrieve product vendors,products,productVendor,None,None,,,,
+Get all product codes,Retrieve product codes,products,productCode,None,None,,,,
+List all countries from offices,Retrieve office countries,offices,country,None,None,,,,
+Show all order statuses,Retrieve order statuses,orders,orderNumber,status,None,None,,,
+Get all payment amounts,Retrieve payment amounts,payments,customerNumber,checkNumber,amount,None,None,,
+List all job titles,Retrieve job titles,employees,jobTitle,None,None,,,,
+Get customer phone numbers,Retrieve customer phone numbers,customers,customerName,phone,None,None,,,
+Show product MSRP values,Retrieve product MSRP,products,productName,MSRP,None,None,,,
+List order numbers,Retrieve order numbers,orders,orderNumber,None,None,,,,
+Get orders with customer names,Retrieve orders joined with customer names,orders, customers,orderNumber,orderDate,status,customerName,None,"customers.""customerNumber"" = orders.""customerNumber"""
+Get employees with office city,Retrieve employees with their office city,employees, offices,firstName,lastName,city,None,"employees.""officeCode"" = offices.""officeCode""",
+Get payments with customer names,Retrieve payments with customer names,payments, customers,customerName,checkNumber,paymentDate,amount,None,"customers.""customerNumber"" = payments.""customerNumber"""
+Get order details with product names,Retrieve order details with product names,orderdetails, products,orderNumber,productName,quantityOrdered,priceEach,None,"orderdetails.""productCode"" = products.""productCode"""
+Get products with product line description,Retrieve products with product line description,products, productlines,productName,productLine,textDescription,None,"products.""productLine"" = productlines.""productLine""",
+Get customers with sales rep names,Retrieve customers with their sales rep names,customers, employees,customerName,firstName,lastName,"salesRepEmployeeNumber"" IS NOT NULL	customers.""salesRepEmployeeNumber"" = employees.""employeeNumber",,
+Get orders with customer city,Retrieve orders with customer city,orders, customers,orderNumber,orderDate,city,None,"customers.""customerNumber"" = orders.""customerNumber""",
+Get employees and their manager,Retrieve employees with their manager names,employees e, employees m,"e.""firstName"""," e.""lastName"""," m.""firstName"""," m.""lastName""",None,"e.""reportsTo"" = m.""employeeNumber"""
+Get orderdetails with product vendor,Retrieve order details with product vendor,orderdetails, products,orderNumber,productName,productVendor,quantityOrdered,None,"orderdetails.""productCode"" = products.""productCode"""
+Get payments with customer country,Retrieve payments with customer country,payments, customers,customerName,country,amount,paymentDate,None,"customers.""customerNumber"" = payments.""customerNumber"""
+Count customers per country,Count customers grouped by country,customers,country," COUNT(""customerNumber"") AS customerCount",None,None,,,
+Total payments per customer,Sum payments grouped by customer,payments, customers,customerName," SUM(""amount"") AS totalPayments",None,"customers.""customerNumber"" = payments.""customerNumber""",,
+Number of orders per status,Count orders grouped by status,orders,status," COUNT(""orderNumber"") AS orderCount",None,None,,,
+Products per product line,Count products grouped by product line,products,productLine," COUNT(""productCode"") AS productCount",None,None,,,
+Employees per office,Count employees grouped by office,employees, offices,city," COUNT(""employeeNumber"") AS employeeCount",None,"employees.""officeCode"" = offices.""officeCode""",,
+Total stock per product vendor,Sum quantity in stock grouped by vendor,products,productVendor," SUM(""quantityInStock"") AS totalStock",None,None,,,
+Average buy price per product line,Average buy price grouped by product line,products,productLine," AVG(""buyPrice"") AS avgBuyPrice",None,None,,,
+Orders per customer,Count orders grouped by customer,orders, customers,customerName," COUNT(""orderNumber"") AS orderCount",None,"customers.""customerNumber"" = orders.""customerNumber""",,
+Max MSRP per product line,Maximum MSRP grouped by product line,products,productLine," MAX(""MSRP"") AS maxMSRP",None,None,,,
+Min buy price per vendor,Minimum buy price grouped by vendor,products,productVendor," MIN(""buyPrice"") AS minBuyPrice",None,None,,,
+Total number of customers,Count total customers,customers,"COUNT(""customerNumber"") AS totalCustomers",None,None,,,,
+Total number of products,Count total products,products,"COUNT(""productCode"") AS totalProducts",None,None,,,,
+Total revenue from payments,Sum all payment amounts,payments,"SUM(""amount"") AS totalRevenue",None,None,,,,
+Average product price,Average buy price of all products,products,"AVG(""buyPrice"") AS avgPrice",None,None,,,,
+Max payment amount,Maximum single payment,payments,"MAX(""amount"") AS maxPayment",None,None,,,,
+Min payment amount,Minimum single payment,payments,"MIN(""amount"") AS minPayment",None,None,,,,
+Count total orders,Count all orders,orders,"COUNT(""orderNumber"") AS totalOrders",None,None,,,,
+Total quantity in stock,Sum all product stock,products,"SUM(""quantityInStock"") AS totalStock",None,None,,,,
+Average MSRP,Average MSRP across all products,products,"AVG(""MSRP"") AS avgMSRP",None,None,,,,
+Number of employees,Count total employees,employees,"COUNT(""employeeNumber"") AS totalEmployees",None,None,,,,
