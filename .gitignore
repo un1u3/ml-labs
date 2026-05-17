@@ -2,3 +2,5 @@
 *.csv
 .env
 venv/.env
+
+venv/
