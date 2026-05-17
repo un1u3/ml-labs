@@ -34,7 +34,7 @@ def tex2sql(request: QuestionRequest):
         sql = fix_sql(request.question, sql, output["error"])
         logger.info(f"Fixed SQL: {sql}")
         output = executor(sql)
-    summary = translate_to_nlp(sql)
+    summary = translate_to_nlp(request.question, output["data"])
     print(f"output : {output['data']}")
     print(f'summary:{summary}')
 
