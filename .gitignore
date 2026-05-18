@@ -2,5 +2,6 @@
 *.csv
 .env
 venv/.env
-
+.codex
 venv/
+.vscode
