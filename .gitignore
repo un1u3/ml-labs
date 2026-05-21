@@ -5,3 +5,4 @@ venv/.env
 .codex
 venv/
 .vscode
+.codex
