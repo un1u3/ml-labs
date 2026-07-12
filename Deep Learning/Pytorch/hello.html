@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unique Shrestha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --bg:#faf8f3;
+  --bg-raised:#f1ede2;
+  --ink:#1c1c18;
+  --muted:#6b6a5f;
+  --gold:#a5730c;
+  --teal:#0f8f88;
+  --line:rgba(28,28,24,0.12);
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.display{ font-family:'Instrument Serif', serif; font-weight:400; }
+.mono{ font-family:'IBM Plex Mono', monospace; }
+a{ color:inherit; text-decoration:none; }
+section{ padding:80px 24px; }
+.inner{ max-width:960px; margin:0 auto; }
+::selection{ background:var(--gold); color:var(--bg); }
+
+/* ── NAV ── */
+nav{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:22px 32px; background:rgba(250,248,243,0.82); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.nav-mark{ font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.5px; color:var(--ink); }
+.nav-links{ display:flex; gap:28px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.3px; }
+.nav-links a{ color:var(--muted); }
+.nav-links a:hover{ color:var(--ink); }
+@media (max-width:640px){ .nav-links{ display:none; } }
+
+/* ── HERO ── */
+.hero{
+  min-height:auto; display:flex; flex-direction:column; justify-content:flex-start;
+  padding:150px 24px 70px; position:relative; overflow:hidden;
+}
+.hero-inner{
+  max-width:1120px; margin:0 auto; width:100%;
+  display:grid; grid-template-columns:1.1fr 0.95fr; gap:48px; align-items:center;
+}
+.hero-photo{
+  aspect-ratio:1/1; border-radius:50%; overflow:hidden;
+  border:1px solid var(--line); background:var(--bg-raised);
+  max-width:420px; margin-left:auto;
+}
+.hero-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+@media (max-width:820px){
+  .hero-inner{ grid-template-columns:1fr; }
+  .hero-photo{ order:-1; max-width:260px; margin:0 auto; }
+}
+.hero-eyebrow{
+  font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--teal); margin-bottom:22px;
+}
+.hero h1{
+  font-size:clamp(56px,10vw,132px); line-height:0.92; letter-spacing:-1px;
+  font-style:italic;
+}
+.hero h1 .no-italic{ font-style:normal; color:var(--gold); }
+.hero-sub{
+  max-width:600px; margin-top:32px; font-size:17.5px; color:var(--muted);
+}
+.hero-sub strong{ color:var(--ink); font-weight:500; }
+
+/* signature: working transformer */
+.wave-wrap{ margin-top:72px; overflow-x:auto; }
+.wave-wrap svg{ width:100%; height:auto; display:block; min-width:820px; }
+
+.tok-box{ fill:var(--bg-raised); stroke:var(--line); stroke-width:1.2; }
+.tok-box.query{ stroke:var(--teal); stroke-width:1.6; }
+.tok-label{ font-family:'IBM Plex Mono',monospace; font-size:13px; fill:var(--ink); text-anchor:middle; }
+.tok-label.devanagari-tok{ font-family:'Noto Serif Devanagari', serif; font-size:16px; }
+
+.stage-box{ fill:var(--bg-raised); stroke:var(--line); stroke-width:1.4; }
+.stage-box.accent{ stroke:var(--teal); stroke-width:1.8; }
+.stage-title{ font-family:'IBM Plex Mono',monospace; font-size:13.5px; fill:var(--ink); text-anchor:middle; font-weight:600; }
+.stage-sub{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; fill:var(--muted); text-anchor:middle; }
+
+.tok-g, .stage-g{ opacity:0; transform:translateY(10px); animation:tokIn 0.5s ease forwards; }
+@keyframes tokIn{ to{ opacity:1; transform:translateY(0); } }
+
+.flow-arrow{
+  stroke:var(--muted); stroke-width:1.4; fill:none;
+  stroke-dasharray:120; stroke-dashoffset:120;
+  animation:drawArc 0.5s ease forwards;
+}
+.mini-arc{
+  fill:none; stroke:var(--gold);
+  stroke-dasharray:120; stroke-dashoffset:120;
+  animation:drawArc 0.5s ease forwards;
+}
+.mini-arc.strong{ stroke:var(--teal); }
+@keyframes drawArc{ to{ stroke-dashoffset:0; } }
+
+.wave-caption{
+  margin-top:16px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted);
+  letter-spacing:0.3px;
+}
+
+.poem-reveal{
+  margin-top:8px; opacity:0; animation:tokIn 1s ease forwards; animation-delay:4.3s;
+}
+.poem-reveal .devanagari{
+  font-family:'Noto Serif Devanagari', serif; font-size:clamp(19px,2.6vw,28px);
+  line-height:1.7; color:var(--ink);
+}
+.poem-reveal .translit{
+  font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); margin-top:10px; font-style:italic;
+}
+@media (prefers-reduced-motion: reduce){
+  .tok-g, .stage-g{ animation:none; opacity:1; transform:none; }
+  .flow-arrow, .mini-arc{ animation:none; stroke-dashoffset:0; }
+}
+
+/* ── SECTION HEAD ── */
+.sec-num{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--teal); letter-spacing:1px; }
+.sec-title{ font-family:'Instrument Serif',serif; font-style:italic; font-size:clamp(32px,4vw,52px); margin-top:8px; margin-bottom:48px; }
+.rule{ border:none; border-top:1px solid var(--line); }
+
+/* reveal on scroll */
+.reveal{ opacity:0; transform:translateY(18px); transition:opacity 0.7s ease, transform 0.7s ease; }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+/* ── ABOUT ── */
+.about-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:60px; }
+.about-grid p{ font-size:17px; color:var(--muted); margin-bottom:16px; }
+.about-grid p strong{ color:var(--ink); font-weight:500; }
+.stat-list{ display:flex; flex-direction:column; gap:22px; }
+.stat{ border-left:2px solid var(--gold); padding-left:18px; }
+.stat-num{ font-family:'Instrument Serif',serif; font-size:38px; color:var(--ink); line-height:1; }
+.stat-label{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); margin-top:6px; letter-spacing:0.3px; text-transform:uppercase; }
+@media (max-width:760px){ .about-grid{ grid-template-columns:1fr; } }
+
+/* ── PROJECTS (asymmetric list) ── */
+.proj{
+  padding:36px 0; border-bottom:1px solid var(--line);
+  display:grid; grid-template-columns:100px 1fr; gap:24px; align-items:start;
+}
+.proj:first-child{ border-top:1px solid var(--line); }
+.proj-year{ font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--muted); }
+.proj-title{ font-family:'Instrument Serif',serif; font-style:italic; font-size:28px; color:var(--ink); margin-bottom:10px; }
+.proj-title a:hover{ color:var(--gold); }
+.proj-detail{ color:var(--muted); font-size:15.5px; max-width:640px; }
+.proj-detail strong{ color:var(--teal); font-weight:500; font-family:'IBM Plex Mono',monospace; font-size:14px; }
+.proj-tags{ margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+.proj-tags span{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink); background:var(--bg-raised); border:1px solid var(--line); padding:3px 9px; border-radius:2px; }
+@media (max-width:600px){ .proj{ grid-template-columns:1fr; gap:8px; } }
+
+/* ── RESEARCH ── */
+.research-card{
+  background:var(--bg-raised); border:1px solid var(--line); border-radius:4px;
+  padding:32px; margin-bottom:20px;
+}
+.research-status{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--teal); text-transform:uppercase; letter-spacing:0.5px;
+  margin-bottom:14px;
+}
+.research-status::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--teal); }
+.research-title{ font-family:'Instrument Serif',serif; font-style:italic; font-size:26px; margin-bottom:12px; }
+.research-card p{ color:var(--muted); font-size:15.5px; margin-bottom:8px; }
+.research-card code{ font-family:'IBM Plex Mono',monospace; font-size:13.5px; color:var(--gold); }
+.oss-list{ list-style:none; }
+.oss-list li{ font-size:14.5px; color:var(--muted); padding:10px 0; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.oss-list li:last-child{ border-bottom:none; }
+.oss-list strong{ color:var(--ink); font-family:'IBM Plex Mono',monospace; font-weight:500; }
+
+/* ── WRITING ── */
+.blog-tabs{ display:flex; gap:10px; margin-bottom:30px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; }
+.blog-tabs button{
+  font:inherit; background:none; color:var(--muted); border:1px solid var(--line);
+  padding:8px 16px; border-radius:2px; cursor:pointer; letter-spacing:0.3px; text-transform:uppercase;
+}
+.blog-tabs button.active{ color:var(--bg); background:var(--teal); border-color:var(--teal); }
+.post{ padding:20px 0; border-bottom:1px solid var(--line); }
+.post-title{ font-family:'Instrument Serif',serif; font-style:italic; font-size:20px; color:var(--ink); }
+.post-title:hover{ color:var(--gold); }
+.post-date{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); margin-top:4px; }
+.post-snippet{ font-size:14.5px; color:var(--muted); margin-top:6px; }
+.state-msg{ color:var(--muted); font-style:italic; font-size:14.5px; }
+
+/* ── CONTACT ── */
+.contact{ text-align:center; }
+.contact h2{ font-family:'Instrument Serif',serif; font-style:italic; font-size:clamp(36px,6vw,64px); }
+.contact p{ color:var(--muted); margin-top:18px; max-width:480px; margin-left:auto; margin-right:auto; }
+.contact-links{ margin-top:36px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+.contact-links a{
+  font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.3px;
+  border:1px solid var(--line); padding:12px 24px; border-radius:2px; color:var(--ink);
+}
+.contact-links a:hover{ border-color:var(--gold); color:var(--gold); }
+
+footer{ text-align:center; padding:36px 24px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-mark">US / 01</div>
+  <div class="nav-links">
+    <a href="#about">about</a>
+    <a href="#projects">work</a>
+    <a href="#research">research</a>
+    <a href="#writing">writing</a>
+    <a href="#contact">contact</a>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Kathmandu, Nepal — AI Fellow, Fusemachines</div>
+      <h1>Unique <span class="no-italic">Shrestha</span></h1>
+      <p class="hero-sub">
+        I teach machines how to learn; <strong>which mostly means correcting them a thousand times
+        until they stop making the same mistake. So, parenting, but with more math.</strong>
+      </p>
+    </div>
+    <div class="hero-photo">
+      <!-- Replace src with your own photo -->
+      <img src="https://avatars.githubusercontent.com/u/112570655?s=400&u=45c99ef4972690e18338df43612cee29f09d6643&v=4" alt="Unique Shrestha">
+    </div>
+  </div>
+
+  <div class="wave-wrap inner" id="transformer-anim">
+    <svg viewBox="0 0 1500 220" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/>
+        </marker>
+      </defs>
+
+      <!-- stage 1: tokens -->
+      <g class="tok-g" style="animation-delay:0.1s">
+        <rect class="tok-box query" x="10"  y="88" width="90" height="40" rx="4"/>
+        <text class="tok-label devanagari-tok tok-word-1" x="55" y="114">हिमाल</text>
+        <rect class="tok-box" x="106" y="88" width="90" height="40" rx="4"/>
+        <text class="tok-label devanagari-tok tok-word-2" x="151" y="114">सपना</text>
+        <rect class="tok-box" x="202" y="88" width="90" height="40" rx="4"/>
+        <text class="tok-label devanagari-tok tok-word-3" x="247" y="114">शब्द</text>
+        <rect class="tok-box" x="298" y="88" width="90" height="40" rx="4"/>
+        <text class="tok-label devanagari-tok tok-word-4" x="343" y="114">चेतना</text>
+        <rect class="tok-box" x="394" y="88" width="90" height="40" rx="4"/>
+        <text class="tok-label" x="439" y="112" font-size="11">…</text>
+        <text class="stage-sub" x="247" y="150">nepali morphemes</text>
+      </g>
+
+      <path class="flow-arrow" style="animation-delay:0.7s" d="M488,108 L548,108" marker-end="url(#arrowhead)"/>
+
+      <!-- stage 2: FST-constrained embedding -->
+      <g class="stage-g" style="animation-delay:0.85s">
+        <rect class="stage-box" x="552" y="78" width="180" height="60" rx="6"/>
+        <text class="stage-title" x="642" y="103">Grammar-Constrained</text>
+        <text class="stage-title" x="642" y="120">FST — ParadigmTok</text>
+      </g>
+
+      <path class="flow-arrow" style="animation-delay:1.35s" d="M732,108 L788,108" marker-end="url(#arrowhead)"/>
+
+      <!-- stage 3: transformer -->
+      <g class="stage-g" style="animation-delay:1.5s">
+        <rect class="stage-box accent" x="792" y="48" width="220" height="120" rx="6"/>
+        <text class="stage-title" x="902" y="75">Character-Level</text>
+        <text class="stage-title" x="902" y="92">Transformer</text>
+        <text class="stage-sub" x="902" y="108">Devkota v0.7 · ~15–20M params</text>
+        <path class="mini-arc strong" style="animation-delay:2.1s" d="M830,140 C830,158 870,158 870,140" stroke-width="2"/>
+        <path class="mini-arc"        style="animation-delay:2.2s" d="M870,140 C870,155 910,155 910,140" stroke-width="1.4" opacity="0.7"/>
+        <path class="mini-arc strong" style="animation-delay:2.3s" d="M910,140 C910,158 950,158 950,140" stroke-width="2"/>
+        <path class="mini-arc"        style="animation-delay:2.4s" d="M950,140 C950,150 980,150 980,140" stroke-width="1.2" opacity="0.6"/>
+      </g>
+
+      <path class="flow-arrow" style="animation-delay:2.6s" d="M1012,108 L1068,108" marker-end="url(#arrowhead)"/>
+
+      <!-- stage 4: add & norm -->
+      <g class="stage-g" style="animation-delay:2.75s">
+        <rect class="stage-box" x="1072" y="88" width="130" height="40" rx="6"/>
+        <text class="stage-title" x="1137" y="112">Add &amp; Norm</text>
+      </g>
+
+      <path class="flow-arrow" style="animation-delay:3.1s" d="M1202,108 L1258,108" marker-end="url(#arrowhead)"/>
+
+      <!-- stage 5: generation -->
+      <g class="stage-g" style="animation-delay:3.25s">
+        <rect class="stage-box" x="1262" y="78" width="150" height="60" rx="6"/>
+        <text class="stage-title" x="1337" y="103">Generation</text>
+        <text class="stage-sub" x="1337" y="120">autoregressive</text>
+      </g>
+
+      <path class="flow-arrow" style="animation-delay:3.75s" d="M1412,108 L1442,108" marker-end="url(#arrowhead)"/>
+
+      <!-- stage 6: output -->
+      <g class="stage-g" style="animation-delay:3.9s">
+        <rect class="stage-box accent" x="1446" y="88" width="46" height="40" rx="6"/>
+      </g>
+    </svg>
+    <div class="wave-caption">
+      Devkota — a from-scratch transformer for Nepali poetry, blocked on ParadigmTok's tokenizer until the FST ships clean.
+    </div>
+    <div class="poem-reveal">
+      <div class="devanagari">
+        <span class="poem-line-1">हिमालको काखमा जन्मन्छ एक सपना,</span><br>
+        <span class="poem-line-2">शब्दै शब्दमा बग्छ त्यो नयाँ चेतना।</span>
+      </div>
+      <div class="translit">— generated output, Devkota v0.7 (draft)</div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="inner reveal">
+    <div class="sec-num">01</div>
+    <h2 class="sec-title">What I actually do</h2>
+    <div class="about-grid">
+      <div>
+        
+        <p>
+            I am trying to learn <strong>AI</strong> and find out: Will <strong>AI</strong> replace us? What is <strong>AI</strong>? What is it capable of?
+            How is our data being used for training? How should it be trained? Will <strong>AI</strong> solve the problems <strong>humans</strong> create, 
+            or will <strong>AI</strong> create problems <strong>humans</strong> never intended?
+            I am scared of <strong>AI</strong> but even more curious about it. I feel it may be the next big thing or the last big thing.
+
+
+
+        </p>
+      </div>
+      <div class="stat-list">
+        <div class="stat">
+          <div class="stat-num">0.74</div>
+          <div class="stat-label">F1 - Seismosafe Nepal</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100+</div>
+          <div class="stat-label">Stars - nepali-datasets</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Merged PRs - scikit-learn, statsmodels, pgmpy,</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="inner reveal">
+    <div class="sec-num">02</div>
+    <h2 class="sec-title">Work</h2>
+
+    <div class="proj">
+      <div class="proj-year mono">2024</div>
+      <div>
+        <div class="proj-title"><a href="https://github.com/un1u3" target="_blank">Seismosafe Nepal</a></div>
+        <div class="proj-detail">Building-damage severity prediction from the 2015 Gorkha
+        earthquake dataset. <strong>THE CATCH:</strong> found and fixed a geo-target leakage bug
+        that was inflating my own out-of-fold F1 before I trusted the number.
+        40+ engineered features, 8 algorithms compared, 0.74 final F1.</div>
+        <div class="proj-tags"><span>Feature engineering</span><span>Model selection</span><span>Leakage debugging</span></div>
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="proj-year mono">2025</div>
+      <div>
+        <div class="proj-title"><a href="https://github.com/un1u3" target="_blank">Drug Safety Predictor</a></div>
+        <div class="proj-detail">Random forest classifier estimating hospitalization risk from
+        clinical trial data. <strong>THE CATCH:</strong> feature-importance output built in from
+        day one, because a clinical model nobody can interrogate is a model nobody should trust.</div>
+        <div class="proj-tags"><span>Healthcare ML</span><span>Interpretability</span></div>
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="proj-year mono">2025–26</div>
+      <div>
+        <div class="proj-title"><a href="https://github.com/un1u3" target="_blank">Devkota</a></div>
+        <div class="proj-detail">A from-scratch, character-level transformer aimed at generating
+        Nepali poetry in the style of Mahakavi Laxmi Prasad Devkota. <strong>THE CATCH:</strong>
+        deliberately blocked on ParadigmTok's tokenizer - I'd rather wait for a linguistically
+        honest tokenizer than fake progress with a bad one. v0.7 stands at ~15–20M parameters.</div>
+        <div class="proj-tags"><span>Deep learning</span><span>Nepali NLP</span><span>always work in progress - by design</span></div>
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="proj-year mono">IOST-ASCOL</div>
+      <div>
+        <div class="proj-title"><a href="https://github.com/IOST-ASCOL/doc2tex" target="_blank">doc2tex</a></div>
+        <div class="proj-detail">DOCX ↔ LaTeX converter, co-created and maintained. 56+ stars.</div>
+        <div class="proj-detail">Thanks to <a href="https://github.com/abhyudayapokhrel" target="_blank">@abhyudayapokhrel</a></div>
+
+        <div class="proj-tags"><span>Open source</span></div>
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="proj-year mono">IOST-ASCOL</div>
+      <div>
+        <div class="proj-title"><a href="https://github.com/IOST-ASCOL/nepali-datasets" target="_blank">nepali-datasets</a></div>
+        <div class="proj-detail">The largest curated collection of Nepali machine learning
+        datasets on GitHub; built because the datasets didn't exist and Nepali NLP needed them to.</div>
+        <div class="proj-tags"><span>Open source</span><span>100+ stars</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="inner reveal">
+    <div class="sec-num">03</div>
+    <h2 class="sec-title">Research</h2>
+
+    <div class="research-card">
+      <div class="research-status">In progress</div>
+      <!-- <div class="research-title">ParadigmTok</div>
+      <p>A grammar-constrained Nepali tokenizer, validated by a finite-state transducer, with a
+      new PRS metric and the NepParadigm-100 dataset. Targeting ACL / EMNLP.</p>
+      <p>Current state, stated plainly: FST compiles at <code>262 states / 618 arcs / 29,032 paths</code>.
+      5 of 6 worked examples from the reference dissertation match exactly. The open blocker is a
+      bug where the NEG tag is silently dropped during FST analysis of negated verb forms
+      (e.g. नगर्नुहोस्) — which is currently blocking full BF1 / PCS / PRS evaluation.</p> -->
+    </div>
+
+    <div style="margin-top:40px;">
+      <div class="proj-title" style="font-size:20px; margin-bottom:16px;">Open source contributions</div>
+      <ul class="oss-list">
+        <li><span><strong>scikit-learn</strong> - dataset caching efficiency from 100 MB+ to 17 MB</span><span>PR #33118, merged</span></li>
+        <li><span><strong>statsmodels</strong> - dead code removal</span><span>PR #9732, merged</span></li>
+        <li><span><strong>pgmpy</strong>- DBN Inference Bug resolved </span><span>PR #2702, merged</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="writing">
+  <div class="inner reveal">
+    <div class="sec-num">04</div>
+    <h2 class="sec-title">Writing</h2>
+    <div class="blog-tabs">
+      <button class="active" data-label="Tech" onclick="switchTab(this,'Tech')">tech</button>
+      <button data-label="Literature" onclick="switchTab(this,'Literature')">literature</button>
+      <button data-label="Rants" onclick="switchTab(this,'Rants')">rants</button>
+    </div>
+    <div id="post-list"><p class="state-msg">Loading posts…</p></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="inner contact reveal">
+    <div class="sec-num" style="justify-content:center; display:flex;">05</div>
+    <h2>Let's talk</h2>
+    <p>Open to research collaboration, open source work, or a conversation about
+     NLP, politics, philosophy,movies, or anything adjacent.</p>
+    <div class="contact-links">
+      <a href="mailto:mail@uniquestha.com.np">mail@uniquestha.com.np</a>
+      <a href="https://github.com/un1u3" target="_blank">github.com/un1u3</a>
+    </div>
+  </div>
+</section>
+
+<footer>UNIQUE SHRESTHA · <span id="year"></span> · KATHMANDU</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// ── Devkota loop: replay the pipeline animation with a new couplet each cycle ──
+const DEVKOTA_POEMS = [
+  {
+    tokens: ["हिमाल", "सपना", "शब्द", "चेतना"],
+    line1: "हिमालको काखमा जन्मन्छ एक सपना,",
+    line2: "शब्दै शब्दमा बग्छ त्यो नयाँ चेतना।"
+  },
+  {
+    tokens: ["नदी", "कथा", "शब्द", "सम्झना"],
+    line1: "नदीको धारमा बग्छ पुराना कथाहरू,",
+    line2: "हरेक शब्दमा बाँच्छन् बिर्सिएका सम्झनाहरू।"
+  },
+  {
+    tokens: ["रात", "विचार", "शब्द", "संसार"],
+    line1: "रातको साँझमा जाग्छ एक्लो विचार,",
+    line2: "शब्दले खोज्छ आफ्नै हराएको संसार।"
+  }
+];
+let devkotaIndex = 0;
+
+function replayTransformer(){
+  const old = document.getElementById('transformer-anim');
+  if (!old) return;
+  const next = DEVKOTA_POEMS[devkotaIndex % DEVKOTA_POEMS.length];
+  devkotaIndex++;
+
+  const clone = old.cloneNode(true);
+  const l1 = clone.querySelector('.poem-line-1');
+  const l2 = clone.querySelector('.poem-line-2');
+  if (l1) l1.textContent = next.line1;
+  if (l2) l2.textContent = next.line2;
+
+  const w1 = clone.querySelector('.tok-word-1');
+  const w2 = clone.querySelector('.tok-word-2');
+  const w3 = clone.querySelector('.tok-word-3');
+  const w4 = clone.querySelector('.tok-word-4');
+  if (w1) w1.textContent = next.tokens[0];
+  if (w2) w2.textContent = next.tokens[1];
+  if (w3) w3.textContent = next.tokens[2];
+  if (w4) w4.textContent = next.tokens[3];
+
+  old.parentNode.replaceChild(clone, old);
+}
+
+// first run, then loop every 10s (pipeline ~4.3s draw + poem hold + reset)
+replayTransformer();
+setInterval(replayTransformer, 10000);
+
+// reveal on scroll
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.15 });
+revealEls.forEach(el=>io.observe(el));
+
+// ── EDIT THIS: your Blogger blog's base URL ──────────────────────────
+const BLOG_URL = "https://YOUR-BLOG-NAME.blogspot.com";
+// ──────────────────────────────────────────────────────────────────────
+
+function switchTab(btn, label){
+  document.querySelectorAll('.blog-tabs button').forEach(b=>b.classList.toggle('active', b===btn));
+  loadPosts(label);
+}
+
+function loadPosts(label){
+  const list = document.getElementById('post-list');
+  list.innerHTML = '<p class="state-msg">Loading posts…</p>';
+  const old = document.getElementById('blogger-feed-script');
+  if (old) old.remove();
+  const script = document.createElement('script');
+  script.id = 'blogger-feed-script';
+  script.src = BLOG_URL + '/feeds/posts/default/-/' + encodeURIComponent(label) +
+               '?alt=json-in-script&max-results=8&callback=renderPosts';
+  script.onerror = function(){
+    list.innerHTML = '<p class="state-msg">Could not load posts. Check BLOG_URL near the bottom of this file.</p>';
+  };
+  document.body.appendChild(script);
+}
+
+function renderPosts(json){
+  const list = document.getElementById('post-list');
+  const entries = (json.feed && json.feed.entry) || [];
+  if (!entries.length){ list.innerHTML = '<p class="state-msg">No posts in this category yet.</p>'; return; }
+  let html = '';
+  entries.forEach(e => {
+    const title = e.title.$t;
+    let link = '#';
+    for (const l of e.link){ if (l.rel === 'alternate'){ link = l.href; break; } }
+    const date = new Date(e.published.$t).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+    const raw = (e.summary ? e.summary.$t : e.content.$t) || '';
+    const snippet = raw.replace(/<[^>]*>/g, '').slice(0, 150) + '…';
+    html += '<div class="post">' +
+              '<div class="post-title"><a href="' + link + '" target="_blank">' + title + '</a></div>' +
+              '<div class="post-date mono">' + date + '</div>' +
+              '<div class="post-snippet">' + snippet + '</div>' +
+            '</div>';
+  });
+  list.innerHTML = html;
+}
+
+loadPosts('Tech');
+</script>
+
+</body>
+</html>
