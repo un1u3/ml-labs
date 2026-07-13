@@ -7,6 +7,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  
+  
+    #navbar-iframe {
+    display: none !important;
+    height: 0 !important;
+    visibility: hidden !important;
+}
+
 
 :root{
   --bg:#faf8f3;
@@ -197,6 +205,13 @@ nav{
 .post-snippet{ font-size:14.5px; color:var(--muted); margin-top:6px; }
 .state-msg{ color:var(--muted); font-style:italic; font-size:14.5px; }
 
+/* ── GALLERY ── */
+.gallery-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.gallery-grid figure{ overflow:hidden; border-radius:4px; border:1px solid var(--line); }
+.gallery-grid img{ width:100%; height:220px; object-fit:cover; display:block; filter:grayscale(15%); transition:filter 0.4s ease, transform 0.5s ease; }
+.gallery-grid figure:hover img{ filter:grayscale(0%); transform:scale(1.04); }
+@media (max-width:640px){ .gallery-grid{ grid-template-columns:repeat(2,1fr); } .gallery-grid img{ height:160px; } }
+
 /* ── CONTACT ── */
 .contact{ text-align:center; }
 .contact h2{ font-family:'Instrument Serif',serif; font-style:italic; font-size:clamp(36px,6vw,64px); }
@@ -220,6 +235,7 @@ footer{ text-align:center; padding:36px 24px; font-family:'IBM Plex Mono',monosp
     <a href="#projects">work</a>
     <a href="#research">research</a>
     <a href="#writing">writing</a>
+    <a href="#gallery">gallery</a>
     <a href="#contact">contact</a>
   </div>
 </nav>
@@ -230,7 +246,7 @@ footer{ text-align:center; padding:36px 24px; font-family:'IBM Plex Mono',monosp
       <div class="hero-eyebrow">Kathmandu, Nepal — AI Fellow, Fusemachines</div>
       <h1>Unique <span class="no-italic">Shrestha</span></h1>
       <p class="hero-sub">
-        I teach machines how to learn; <strong>which mostly means correcting them a thousand times
+       I teach machines how to learn; <strong>which mostly means correcting them a thousand times
         until they stop making the same mistake. So, parenting, but with more math.</strong>
       </p>
     </div>
@@ -331,10 +347,11 @@ footer{ text-align:center; padding:36px 24px; font-family:'IBM Plex Mono',monosp
       <div>
         
         <p>
-            I am trying to learn <strong>AI</strong> and find out: Will <strong>AI</strong> replace us? What is <strong>AI</strong>? What is it capable of?
+ 		 	I am trying to learn <strong>AI</strong> and find out: Will <strong>AI</strong> replace us? What is <strong>AI</strong>? What is it capable of?
             How is our data being used for training? How should it be trained? Will <strong>AI</strong> solve the problems <strong>humans</strong> create, 
             or will <strong>AI</strong> create problems <strong>humans</strong> never intended?
             I am scared of <strong>AI</strong> but even more curious about it. I feel it may be the next big thing or the last big thing.
+
 
 
 
@@ -428,13 +445,10 @@ footer{ text-align:center; padding:36px 24px; font-family:'IBM Plex Mono',monosp
 
     <div class="research-card">
       <div class="research-status">In progress</div>
-      <!-- <div class="research-title">ParadigmTok</div>
-      <p>A grammar-constrained Nepali tokenizer, validated by a finite-state transducer, with a
-      new PRS metric and the NepParadigm-100 dataset. Targeting ACL / EMNLP.</p>
-      <p>Current state, stated plainly: FST compiles at <code>262 states / 618 arcs / 29,032 paths</code>.
-      5 of 6 worked examples from the reference dissertation match exactly. The open blocker is a
-      bug where the NEG tag is silently dropped during FST analysis of negated verb forms
-      (e.g. नगर्नुहोस्) — which is currently blocking full BF1 / PCS / PRS evaluation.</p> -->
+      <!-- <div class="research-title">FUCK U</div>
+		these tricks wont work here:)
+-->
+      
     </div>
 
     <div style="margin-top:40px;">
@@ -461,9 +475,25 @@ footer{ text-align:center; padding:36px 24px; font-family:'IBM Plex Mono',monosp
   </div>
 </section>
 
+<section id="gallery">
+  <div class="inner reveal">
+    <div class="sec-num">05</div>
+    <h2 class="sec-title">Moments</h2>
+    <div class="gallery-grid">
+      <!-- Replace each src with your own photo -->
+      <figure><img src="https://placehold.co/500x500/f1ede2/6b6a5f?text=Photo+1" alt=""></figure>
+      <figure><img src="https://placehold.co/500x500/f1ede2/6b6a5f?text=Photo+2" alt=""></figure>
+      <figure><img src="https://placehold.co/500x500/f1ede2/6b6a5f?text=Photo+3" alt=""></figure>
+      <figure><img src="https://placehold.co/500x500/f1ede2/6b6a5f?text=Photo+4" alt=""></figure>
+      <figure><img src="https://placehold.co/500x500/f1ede2/6b6a5f?text=Photo+5" alt=""></figure>
+      <figure><img src="https://placehold.co/500x500/f1ede2/6b6a5f?text=Photo+6" alt=""></figure>
+    </div>
+  </div>
+</section>
+
 <section id="contact">
   <div class="inner contact reveal">
-    <div class="sec-num" style="justify-content:center; display:flex;">05</div>
+    <div class="sec-num" style="justify-content:center; display:flex;">06</div>
     <h2>Let's talk</h2>
     <p>Open to research collaboration, open source work, or a conversation about
      NLP, politics, philosophy,movies, or anything adjacent.</p>
@@ -535,7 +565,7 @@ const io = new IntersectionObserver((entries)=>{
 revealEls.forEach(el=>io.observe(el));
 
 // ── EDIT THIS: your Blogger blog's base URL ──────────────────────────
-const BLOG_URL = "https://YOUR-BLOG-NAME.blogspot.com";
+const BLOG_URL = "https://www.uniquestha.com.np/";
 // ──────────────────────────────────────────────────────────────────────
 
 function switchTab(btn, label){
