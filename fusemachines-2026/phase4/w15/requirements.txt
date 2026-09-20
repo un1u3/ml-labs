@@ -1,0 +1,4 @@
+chromadb
+pypdf
+streamlit
+requests
