@@ -1,0 +1,15 @@
+[project]
+name = "churn-mlops"
+version = "0.1.0"
+description = "W17 Track A: MLOps (uv, MLflow, Evidently) for a Telco customer churn model"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "evidently>=0.7,<0.8",
+    "matplotlib>=3.11.2",
+    "mlflow>=3,<4",
+    "pandas>=3.0.6",
+    "scikit-learn>=1.9.1",
+]
+
+[tool.uv]
+package = false

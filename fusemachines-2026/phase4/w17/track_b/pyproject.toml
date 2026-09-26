@@ -1,0 +1,18 @@
+[project]
+name = "course-assistant-mlops"
+version = "0.1.0"
+description = "W17 Track B: MLOps (uv, MLflow, Evidently LLM evals) for the W15/W16 course assistant"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "chromadb>=1.0",
+    "pypdf>=5",
+    "requests>=2.32",
+    "streamlit>=1.40",
+    "mlflow>=3,<4",
+    "evidently[llm]>=0.7,<0.8",
+    "pandas>=2.2",
+    "python-dotenv>=1.0",
+]
+
+[tool.uv]
+package = false

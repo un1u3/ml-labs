@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - VLLM_URL=http://vllm:8000/v1/chat/completions
+    volumes:
+      - chroma:/app/chroma_data
+    depends_on:
+      - vllm
+
+  vllm:
+    image: public.ecr.aws/q9t5s3a7/vllm-cpu-release-repo:latest
+    command: ["--model", "Qwen/Qwen2.5-0.5B-Instruct", "--max-model-len", "2048", "--dtype", "bfloat16"]
+    environment:
+      - VLLM_CPU_KVCACHE_SPACE=1
+    ports:
+      - "8000:8000"
+
+volumes:
+  chroma:

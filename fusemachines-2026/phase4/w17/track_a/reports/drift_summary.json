@@ -1,0 +1,25 @@
+{
+  "drift_injected": true,
+  "drifted_features": [
+    "Contract",
+    "MonthlyCharges",
+    "TotalCharges",
+    "tenure"
+  ],
+  "drifted_share": 0.211,
+  "target_and_prediction_drift": [
+    "Churn",
+    "prediction"
+  ],
+  "churn_rate_reference": 0.2696,
+  "churn_rate_current": 0.3521,
+  "predicted_churn_rate_reference": 0.4087,
+  "predicted_churn_rate_current": 0.5513,
+  "mean_monthly_charges_diff": 14.467,
+  "m2m_churn_rate_shift": -0.0241,
+  "retrain_recommended": true,
+  "reasons": [
+    "churn rate drifted",
+    "mean MonthlyCharges changed by +14.47"
+  ]
+}

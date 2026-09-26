@@ -1,0 +1,14 @@
+{
+  "drift_injected": false,
+  "drifted_features": [],
+  "drifted_share": 0.0,
+  "target_and_prediction_drift": [],
+  "churn_rate_reference": 0.2696,
+  "churn_rate_current": 0.2556,
+  "predicted_churn_rate_reference": 0.4087,
+  "predicted_churn_rate_current": 0.3904,
+  "mean_monthly_charges_diff": -0.391,
+  "m2m_churn_rate_shift": -0.0192,
+  "retrain_recommended": false,
+  "reasons": []
+}

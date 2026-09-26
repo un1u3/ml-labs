@@ -1,0 +1,9 @@
+2026-09-26T12:02:44.463665Z [info     ] Task instance state updated   
+reasons: ['churn rate drifted', 'mean MonthlyCharges changed by +14.47']
+2026-09-26T12:02:44.556179Z [info     ] Task instance state updated   
+2026-09-26T12:03:25.797724Z [info     ] Task instance state updated   
+2026-09-26T12:03:27.728572Z [info     ] best run: rf_300_depth8 f1=0.6285 roc_auc=0.8426
+2026-09-26T12:03:27.728746Z [info     ] version 2 -> Staging          
+2026-09-26T12:03:27.728829Z [info     ] version 2 -> Production       
+2026-09-26T12:03:28.278134Z [info     ] Task instance state updated   
+2026-09-26T12:03:28.285758Z [info     ] DagRun Finished: dag_id=churn_monitoring, logical_date=2026-09-26 00:00:00+00:00, run_id=manual__2026-09-26T12:02:33.745252+00:00, run_start_date=2026-09-26 00:00:00+00:00, run_end_date=2026-09-26 12:03:28.285385+00:00, run_duration=43408.285385, state=success, run_type=manual, data_interval_start=2026-09-26 00:00:00+00:00, data_interval_end=2026-09-26 00:00:00+00:00,

@@ -1,0 +1,22 @@
+[
+  {"id": "stop_condition", "question": "What stopping condition must the agentic loop have?",
+   "reference": "It must have a clearly defined stopping condition, such as a maximum number of iterations or steps. The loop must not be allowed to run indefinitely."},
+  {"id": "w15_providers", "question": "Which LLM providers does W15 suggest connecting to?",
+   "reference": "A major provider: OpenAI, Gemini, Claude, or Bedrock."},
+  {"id": "reliability", "question": "What reliability features must be implemented in W15 Task 2?",
+   "reference": "A retry mechanism, rate limiting, a fallback model/provider, and error handling with graceful degradation."},
+  {"id": "five_failures", "question": "What are the five structural failures listed in W16?",
+   "reference": "Context saturation, sequential bottleneck, skill dilution, self-verification paradox, and single point of failure."},
+  {"id": "harness_metrics", "question": "What must the W16 evaluation harness measure at minimum?",
+   "reference": "Task completion rate, tool-call correctness, trajectory length, and a failure log that classifies failures as hard, soft, or cascading soft."},
+  {"id": "local_serving", "question": "What should be used to serve an open-source model locally in W15?",
+   "reference": "vLLM, serving an open-source model such as Llama 3 or Mistral."},
+  {"id": "failure_injection", "question": "What examples of failures does W16 suggest injecting for the failure injection test?",
+   "reference": "Making a tool unavailable, providing malformed retrieval output, or forcing a timeout."},
+  {"id": "onnx", "question": "What does W15 say about ONNX?",
+   "reference": "Model optimization is optional where applicable: convert the model to ONNX or justify why it is not applicable."},
+  {"id": "failure_sum", "question": "W16 lists five structural failures and three failure classes. What is the total of the two counts?",
+   "reference": "8 (five structural failures plus three failure classes: hard, soft, and cascading soft)."},
+  {"id": "deadline", "question": "What is the submission deadline for W16?",
+   "reference": "The documents do not state a submission deadline for W16."}
+]

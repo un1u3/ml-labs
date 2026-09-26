@@ -1,0 +1,11 @@
+{
+  "model": "churn-model",
+  "version": 2,
+  "run": "rf_300_depth8",
+  "run_id": "7430fa57eed241868c83be6b2f9d82d5",
+  "stage": "Production",
+  "aliases": [
+    "champion"
+  ],
+  "description": "rf_300_depth8: F1=0.6285, ROC-AUC=0.8426"
+}
