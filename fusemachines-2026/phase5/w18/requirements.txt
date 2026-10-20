@@ -1,0 +1,9 @@
+# The guardrails, mock LLM, test suite and evaluation use only the Python
+# standard library (Python 3.9+). Nothing needs to be installed to run them.
+#
+# Optional: to run the assistant against Claude instead of the offline mock
+# (python main.py --llm claude ...), install the Anthropic SDK:
+#   anthropic>=1.0
+#
+# Optional: pytest can run the unit tests, but `python -m unittest` works too.
+#   pytest

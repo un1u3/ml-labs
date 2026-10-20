@@ -1,0 +1,62 @@
+[
+  {
+    "id": "fees-transfers",
+    "title": "Transfer Fees",
+    "text": "Domestic transfers between Kestrel Bank accounts are free. Domestic transfers to other banks cost $5 per transfer. International wire transfers cost $25 per transfer plus any intermediary bank charges. International wire transfers usually arrive within 3 to 5 business days. Transfers submitted after 4 PM are processed on the next business day."
+  },
+  {
+    "id": "overdraft",
+    "title": "Overdraft Protection",
+    "text": "Overdraft protection is available on all checking accounts. Customers must opt in to overdraft protection through the mobile app or at a branch. An overdraft fee of $30 is charged for each transaction that overdraws the account. No more than 3 overdraft fees are charged per day. Savings accounts do not offer overdraft protection."
+  },
+  {
+    "id": "lost-card",
+    "title": "Lost or Stolen Cards",
+    "text": "If your card is lost or stolen, freeze it immediately in the mobile app under Cards and then Freeze Card. You can also call the 24/7 card hotline at +1-800-555-0199. A replacement card is mailed within 7 business days at no charge. You are not liable for unauthorized transactions reported within 2 business days."
+  },
+  {
+    "id": "password-reset",
+    "title": "Resetting Your Online Banking Password",
+    "text": "To reset your online banking password, tap Forgot Password on the login screen of the mobile app. A one-time verification code is sent to the phone number registered on your account. The verification code expires after 10 minutes. Kestrel Bank staff will never ask you for your password or verification code."
+  },
+  {
+    "id": "savings-rates",
+    "title": "Savings Account Interest Rates",
+    "text": "The Standard Savings account earns 1.5% annual interest. The High-Yield Savings account earns 4.2% annual interest on balances above $1,000. Interest is calculated daily and paid monthly. Rates are variable and may change with notice."
+  },
+  {
+    "id": "account-opening",
+    "title": "Opening an Account",
+    "text": "To open a savings or checking account you need a valid government-issued photo ID and proof of address dated within the last 3 months. Applicants must be at least 18 years old. Accounts can be opened online in about 10 minutes or at any branch. The minimum opening deposit is $25."
+  },
+  {
+    "id": "branch-hours",
+    "title": "Branch Opening Hours",
+    "text": "Branches are open Monday to Friday from 9 AM to 5 PM. On Saturday branches are open from 10 AM to 2 PM. Branches are closed on Sunday and on public holidays. Customer support is available by email at support@kestrelbank.example."
+  },
+  {
+    "id": "hardship",
+    "title": "Financial Hardship Assistance",
+    "text": "Customers who are struggling to make loan repayments can apply to the Financial Hardship Program. The program can offer a payment pause of up to 3 months or a reduced repayment plan. Applying does not affect your credit score. A hardship specialist will contact you within 2 business days of applying."
+  },
+  {
+    "id": "fixed-deposit",
+    "title": "Fixed Deposits",
+    "text": "Fixed deposits are available for terms of 6, 12, or 24 months. Withdrawing a fixed deposit before maturity incurs an early withdrawal penalty equal to 3 months of interest. The minimum fixed deposit amount is $500."
+  },
+  {
+    "id": "marketing-preferences",
+    "title": "Marketing Communication Preferences",
+    "text": "You can stop promotional emails by clicking Unsubscribe at the bottom of any marketing email. You can also turn off marketing messages in the mobile app under Settings and then Notifications. Service messages about your account, such as security alerts, cannot be turned off."
+  },
+  {
+    "id": "investments",
+    "title": "Investment Products",
+    "text": "Kestrel Bank offers managed investment portfolios with a minimum investment of $1,000. Investments can lose value and past performance does not guarantee future returns. Kestrel Bank does not offer cryptocurrency trading. Customers can book a free appointment with a licensed financial adviser through the mobile app."
+  },
+  {
+    "id": "fraud-protection",
+    "title": "Fraud Protection",
+    "text": "If you notice a transaction you did not make, report it in the mobile app or call the fraud team at +1-800-555-0123. Kestrel Bank investigates disputed transactions within 10 business days. Kestrel Bank will never send you a link asking you to confirm your card details."
+  }
+]

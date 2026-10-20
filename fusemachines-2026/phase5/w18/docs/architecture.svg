@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 760" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b42318"/>
+    </marker>
+    <style>
+      .box{fill:#fff;stroke:#333;stroke-width:1.4;rx:8}
+      .in{fill:#eef4ff;stroke:#2f5fb3}
+      .out{fill:#effaf3;stroke:#1f7a45}
+      .core{fill:#f6f6f6;stroke:#555}
+      .t{font-weight:bold;font-size:14px}
+      .s{fill:#444;font-size:11.5px}
+      .flow{stroke:#333;stroke-width:1.6;fill:none;marker-end:url(#a)}
+      .rej{stroke:#b42318;stroke-width:1.3;fill:none;stroke-dasharray:5 4;marker-end:url(#r)}
+      .rl{fill:#b42318;font-size:11.5px}
+      .lane{fill:none;stroke-width:1.2;stroke-dasharray:3 3}
+    </style>
+  </defs>
+
+  <text x="500" y="28" text-anchor="middle" font-size="18" font-weight="bold">Guarded Kestrel Bank Assistant: guardrail architecture</text>
+
+  <!-- user -->
+  <rect class="box core" x="40" y="55" width="180" height="50"/>
+  <text class="t" x="130" y="78" text-anchor="middle">User message</text>
+  <text class="s" x="130" y="95" text-anchor="middle">untrusted text</text>
+
+  <!-- INPUT lane -->
+  <rect class="lane" x="20" y="125" width="460" height="330" stroke="#2f5fb3" rx="10"/>
+  <text x="34" y="146" fill="#2f5fb3" font-weight="bold">INPUT GUARDRAILS (before any model call)</text>
+
+  <rect class="box in" x="40" y="160" width="250" height="72"/>
+  <text class="t" x="55" y="182">1. PII detection</text>
+  <text class="s" x="55" y="200">regex + Luhn / range / context validators</text>
+  <text class="s" x="55" y="216">action: REDACT to [EMAIL_1]…, warn user</text>
+
+  <rect class="box in" x="40" y="252" width="250" height="72"/>
+  <text class="t" x="55" y="274">2. Prompt-injection detection</text>
+  <text class="s" x="55" y="292">normalise (NFKC, zero-width, leet, base64)</text>
+  <text class="s" x="55" y="308">weighted signals, score ≥ 0.5 → BLOCK</text>
+
+  <rect class="box in" x="40" y="344" width="250" height="90"/>
+  <text class="t" x="55" y="366">3. Sensitive-topic policy</text>
+  <text class="s" x="55" y="384">self-harm → crisis reply + human (no LLM)</text>
+  <text class="s" x="55" y="400">illegal → refuse (no LLM)</text>
+  <text class="s" x="55" y="416">security / hardship → answer + escalate</text>
+  <text class="s" x="55" y="430">investment / legal → answer + disclaimer</text>
+
+  <path class="flow" d="M130,105 L130,160"/>
+  <path class="flow" d="M165,232 L165,252"/>
+  <path class="flow" d="M165,324 L165,344"/>
+
+  <!-- early exits -->
+  <rect class="box" x="330" y="262" width="135" height="52" fill="#fff4f2" stroke="#b42318"/>
+  <text class="t" x="397" y="284" text-anchor="middle" fill="#b42318">Refusal</text>
+  <text class="s" x="397" y="301" text-anchor="middle">static safe reply</text>
+  <path class="rej" d="M290,288 L330,288"/>
+  <rect class="box" x="330" y="360" width="135" height="58" fill="#fff4f2" stroke="#b42318"/>
+  <text class="t" x="397" y="382" text-anchor="middle" fill="#b42318">Crisis / refuse</text>
+  <text class="s" x="397" y="400" text-anchor="middle">needs_human = true</text>
+  <path class="rej" d="M290,389 L330,389"/>
+
+  <!-- CORE -->
+  <rect class="box core" x="560" y="160" width="190" height="64"/>
+  <text class="t" x="655" y="185" text-anchor="middle">Retriever (BM25)</text>
+  <text class="s" x="655" y="203" text-anchor="middle">12 reference docs</text>
+  <text class="s" x="655" y="217" text-anchor="middle">query = redacted text</text>
+
+  <rect class="box core" x="560" y="262" width="190" height="80"/>
+  <text class="t" x="655" y="286" text-anchor="middle">LLM</text>
+  <text class="s" x="655" y="304" text-anchor="middle">Mock / Scripted / Claude</text>
+  <text class="s" x="655" y="320" text-anchor="middle">system prompt + canary</text>
+  <text class="s" x="655" y="335" text-anchor="middle">sees redacted text + docs only</text>
+
+  <rect class="box core" x="790" y="160" width="190" height="64"/>
+  <text class="t" x="885" y="185" text-anchor="middle">Audit log (JSONL)</text>
+  <text class="s" x="885" y="203" text-anchor="middle">redacted input, decisions,</text>
+  <text class="s" x="885" y="217" text-anchor="middle">status; never raw PII</text>
+
+  <path class="flow" d="M165,434 L165,475 L505,475 L505,192 L560,192"/>
+  <text class="s" x="420" y="468">allowed → retrieve</text>
+  <path class="flow" d="M655,224 L655,262"/>
+
+  <!-- OUTPUT lane -->
+  <rect class="lane" x="520" y="370" width="460" height="300" stroke="#1f7a45" rx="10"/>
+  <text x="534" y="391" fill="#1f7a45" font-weight="bold">OUTPUT GUARDRAILS (every candidate response)</text>
+
+  <rect class="box out" x="540" y="405" width="250" height="62"/>
+  <text class="t" x="555" y="427">4. Schema validation</text>
+  <text class="s" x="555" y="445">JSON, required fields, types, ranges,</text>
+  <text class="s" x="555" y="459">citations ⊆ retrieved docs</text>
+
+  <rect class="box out" x="540" y="487" width="250" height="62"/>
+  <text class="t" x="555" y="509">5. Sensitive-info detection</text>
+  <text class="s" x="555" y="527">PII / secrets → REDACT (public KB allow-list)</text>
+  <text class="s" x="555" y="541">canary or prompt n-gram → BLOCK</text>
+
+  <rect class="box out" x="540" y="569" width="250" height="78"/>
+  <text class="t" x="555" y="591">6. Groundedness validation</text>
+  <text class="s" x="555" y="609">per-claim lexical support ≥ 0.6</text>
+  <text class="s" x="555" y="624">+ numbers must appear in sources</text>
+  <text class="s" x="555" y="639">+ negation polarity matches source</text>
+
+  <path class="flow" d="M665,342 L665,405"/>
+  <path class="flow" d="M665,467 L665,487"/>
+  <path class="flow" d="M665,549 L665,569"/>
+
+  <!-- regenerate loop -->
+  <path class="rej" d="M790,436 L835,436 L835,302 L750,302"/>
+  <path class="rej" d="M790,608 L835,608 L835,436"/>
+  <text class="rl" x="843" y="268">invalid / ungrounded:</text>
+  <text class="rl" x="843" y="283">regenerate once with</text>
+  <text class="rl" x="843" y="298">validator feedback</text>
+
+  <rect class="box" x="815" y="490" width="150" height="56" fill="#fff4f2" stroke="#b42318"/>
+  <text class="t" x="890" y="512" text-anchor="middle" fill="#b42318">Safe fallback</text>
+  <text class="s" x="890" y="529" text-anchor="middle">after 2nd failure or leak</text>
+  <path class="rej" d="M790,518 L815,518"/>
+
+  <!-- final -->
+  <rect class="box core" x="210" y="590" width="270" height="70"/>
+  <text class="t" x="345" y="614" text-anchor="middle">Response assembly</text>
+  <text class="s" x="345" y="632" text-anchor="middle">append topic disclaimer / escalation,</text>
+  <text class="s" x="345" y="648" text-anchor="middle">status: answered | escalated | refused | fallback</text>
+  <path class="flow" d="M540,620 L480,620"/>
+  <text class="s" x="490" y="612">pass</text>
+
+  <path class="flow" d="M345,660 L345,705"/>
+  <rect class="box core" x="255" y="705" width="180" height="40"/>
+  <text class="t" x="345" y="730" text-anchor="middle">User</text>
+
+  <path class="flow" d="M435,725 L990,725 L990,192 L980,192" stroke="#888" stroke-dasharray="2 3"/>
+  <text class="s" x="720" y="718">every request is audit-logged</text>
+</svg>
